@@ -1,0 +1,9 @@
+numpy
+Cython==0.29.21
+scikit-learn
+pandas
+plotly
+scipy
+pyDOE
+openpyxl
+matplotlib
