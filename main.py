@@ -651,170 +651,170 @@ elif tabs == "Prediction Performance":
 
 
 elif tabs == "Grade Distribution Tables":
-        st.write("not yet")
-    # clear_resources()
-    # additional_selection = " "
+    clear_resources()
+    additional_selection = " "
 
-    # unique_values_major = df["Major"].unique()
-    # unique_values_major = [
-    #     "BA",
-    #     "BE",
-    #     "BT",
-    #     "CE",
-    #     "EE",
-    #     "EN",
-    #     "EV",
-    #     "IE",
-    #     "MA",
-    #     "SE",
-    #     "IT",
-    # ]
-    # unique_values_major = sorted(unique_values_major, key=lambda s: s)
-    # col1, col2 = st.columns(2)
-    # with col1:
-    #     major = st.selectbox("Select a school:", unique_values_major)
-    #     df = filter_dataframe(df, "Major", major)
+    unique_values_major = df["Major"].unique()
+    unique_values_major = [
+        "BA",
+        "BE",
+        "BT",
+        "CE",
+        "EE",
+        "EN",
+        "EV",
+        "IE",
+        "MA",
+        "SE",
+        "IT",
+    ]
+    unique_values_major = sorted(unique_values_major, key=lambda s: s)
+    col1, col2 = st.columns(2)
+    with col1:
+        major = st.selectbox("Select a school:", unique_values_major)
+        df = filter_dataframe(df, "Major", major)
 
-    #     unique_values_school = df["MaSV_school"].unique()
-    #     all_values_school = np.concatenate([["All"], unique_values_school])
-    #     no_numbers = [x for x in all_values_school if not re.search(r"\d", str(x))]
+        unique_values_school = df["MaSV_school"].unique()
+        all_values_school = np.concatenate([["All"], unique_values_school])
+        no_numbers = [x for x in all_values_school if not re.search(r"\d", str(x))]
 
-    #     if len(no_numbers) == 2:
-    #         school = no_numbers[1]
-    # with col2:
-    #     school = st.selectbox("Select a major:", no_numbers)
+        if len(no_numbers) == 2:
+            school = no_numbers[1]
+    with col2:
+        school = st.selectbox("Select a major:", no_numbers)
 
-    # df = filter_dataframe(df, "MaSV_school", school)
+    df = filter_dataframe(df, "MaSV_school", school)
 
-    # unique_values_year = df["Year"].unique()
-    # all_values_year = np.concatenate([["All"], unique_values_year])
+    unique_values_year = df["Year"].unique()
+    all_values_year = np.concatenate([["All"], unique_values_year])
 
-    # year = st.selectbox("Select a year:", all_values_year)
+    year = st.selectbox("Select a year:", all_values_year)
 
-    # options = df.columns[:-4]
+    options = df.columns[:-4]
 
-    # course_data_dict = {course: df[course].dropna() for course in options}
-    # valid_courses = [
-    #     course for course, data in course_data_dict.items() if len(data) > 1
-    # ]
+    course_data_dict = {course: df[course].dropna() for course in options}
+    valid_courses = [
+        course for course, data in course_data_dict.items() if len(data) > 1
+    ]
 
-    # course = "All"
+    course = "All"
 
-    # if st.button("Generate Chart"):
-    #     courses_per_row = 4
-    #     num_courses = len(valid_courses)
-    #     num_rows = (num_courses + courses_per_row - 1) // courses_per_row
+    if st.button("Generate Chart"):
+        courses_per_row = 4
+        num_courses = len(valid_courses)
+        num_rows = (num_courses + courses_per_row - 1) // courses_per_row
 
-    #     for row in range(num_rows):
-    #         start_index = row * courses_per_row
-    #         end_index = min((row + 1) * courses_per_row, num_courses)
-    #         courses_in_row = valid_courses[start_index:end_index]
+        for row in range(num_rows):
+            start_index = row * courses_per_row
+            end_index = min((row + 1) * courses_per_row, num_courses)
+            courses_in_row = valid_courses[start_index:end_index]
 
-    #         for course in courses_in_row:
-    #             course_data = course_data_dict[course]
-    #             course_data = course_data.astype(float)
-    #             st.markdown(f"Course:  **{course}**")
-    #             st.write("Number of examinations: ", str(len(course_data)))
-    #             col1, col2, col3, col4 = st.columns(4)
+            for course in courses_in_row:
+                course_data = course_data_dict[course]
+                course_data = course_data.astype(float)
+                st.markdown(f"Course:  **{course}**")
+                st.write("Number of examinations: ", str(len(course_data)))
+                col1, col2, col3, col4 = st.columns(4)
 
-    #             with col1:
-    #                 counts, bins = np.histogram(course_data, bins=np.arange(0, 110, 10))
-    #                 total_count = len(course_data)
-    #                 frequencies_percentage = (counts / total_count) * 100
-    #                 grade_bins = [
-    #                     f"{bins[i]}-{bins[i+1]}" for i in range(len(bins) - 1)
-    #                 ]
-    #                 result_array = []
-    #                 cumulative_sum = 0
+                with col1:
+                    counts, bins = np.histogram(course_data, bins=np.arange(0, 110, 10))
+                    total_count = len(course_data)
+                    frequencies_percentage = (counts / total_count) * 100
+                    grade_bins = [
+                        f"{bins[i]}-{bins[i+1]}" for i in range(len(bins) - 1)
+                    ]
+                    result_array = []
+                    cumulative_sum = 0
 
-    #                 for element in frequencies_percentage:
-    #                     cumulative_sum += element
-    #                     result_array.append(cumulative_sum)
+                    for element in frequencies_percentage:
+                        cumulative_sum += element
+                        result_array.append(cumulative_sum)
 
-    #                 df = pd.DataFrame(
-    #                     {
-    #                         "Grade": grade_bins,
-    #                         "Grading percentage": frequencies_percentage,
-    #                         "Cumulative percentage": result_array
-    #                     }
-    #                 )
-    #                 df["Grading percentage"] = df["Grading percentage"].map(
-    #                     lambda x: "{:.2f}".format(x)
-    #                 )
-    #                 df["Cumulative percentage"] = df["Cumulative percentage"].map(
-    #                     lambda x: "{:.2f}".format(x)
-    #                 )
+                    df = pd.DataFrame(
+                        {
+                            "Grade": grade_bins,
+                            "Grading percentage": frequencies_percentage,
+                            "Cumulative percentage": result_array
+                        }
+                    )
+                    df["Grading percentage"] = df["Grading percentage"].map(
+                        lambda x: "{:.2f}".format(x)
+                    )
+                    df["Cumulative percentage"] = df["Cumulative percentage"].map(
+                        lambda x: "{:.2f}".format(x)
+                    )
 
-    #                 st.table(df)
+                    st.table(df)
 
-    #             with col2:
-    #                 fig = go.Figure()
-    #                 fig.add_trace(
-    #                     go.Scatter(
-    #                         x=bins[:-1],
-    #                         y=frequencies_percentage,
-    #                         mode="lines",
-    #                         name="Frequency",
-    #                     )
-    #                 )
+                with col2:
+                    fig = go.Figure()
+                    fig.add_trace(
+                        go.Scatter(
+                            x=bins[:-1],
+                            y=frequencies_percentage,
+                            mode="lines",
+                            name="Frequency",
+                        )
+                    )
 
-    #                 fig.update_layout(
-    #                     title="Frequency Range",
-    #                     xaxis_title="Score",
-    #                     yaxis_title="Percentage",
-    #                     height=400,
-    #                     width=400,
-    #                 )
-    #                 st.plotly_chart(fig, use_container_width=True)
+                    fig.update_layout(
+                        title="Frequency Range",
+                        xaxis_title="Score",
+                        yaxis_title="Percentage",
+                        height=400,
+                        width=400,
+                    )
+                    st.plotly_chart(fig, use_container_width=True)
 
-    #             with col3:
-    #                 fig = go.Figure()
-    #                 fig.add_trace(go.Box(y=course_data, name="Box plot"))
-    #                 fig.update_layout(
-    #                     title="Box plot",
-    #                     yaxis_title="Score",
-    #                     height=400,
-    #                     width=400,
-    #                 )
-    #                 st.plotly_chart(fig, use_container_width=True)
+                with col3:
+                    fig = go.Figure()
+                    fig.add_trace(go.Box(y=course_data, name="Box plot"))
+                    fig.update_layout(
+                        title="Box plot",
+                        yaxis_title="Score",
+                        height=400,
+                        width=400,
+                    )
+                    st.plotly_chart(fig, use_container_width=True)
 
-    #             with col4:
-    #                 raw_data1 = raw_data.copy()
-    #                 raw_data1["major"] = raw_data1["MaSV"].str.slice(0, 2)
-    #                 raw_data1.replace(["WH", "VT", "I"], np.nan, inplace=True)
-    #                 raw_data1 = raw_data1[~raw_data1["DiemHP"].isin(["P", "F", "PC"])]
-    #                 if major != "All":
-    #                     raw_data1 = raw_data1[raw_data1["major"] == major]
+                with col4:
+                    raw_data1 = raw_data.copy()
+                    raw_data1["major"] = raw_data1["MaSV"].str.slice(0, 2)
+                    raw_data1.replace(["WH", "VT", "I"], np.nan, inplace=True)
+                    raw_data1 = raw_data1[~raw_data1["DiemHP"].isin(["P", "F", "PC"])]
+                    if major != "All":
+                        raw_data1 = raw_data1[raw_data1["major"] == major]
 
-    #                 raw_data1["MaSV_school"] = raw_data1["MaSV"].str.slice(2, 4)
-    #                 if school != "All":
-    #                     raw_data1 = raw_data1[raw_data1["MaSV_school"] == school]
+                    raw_data1["MaSV_school"] = raw_data1["MaSV"].str.slice(2, 4)
+                    if school != "All":
+                        raw_data1 = raw_data1[raw_data1["MaSV_school"] == school]
 
-    #                 df1 = raw_data1[["TenMH", "NHHK", "DiemHP"]].copy()
-    #                 df1["DiemHP"] = df1["DiemHP"].astype(float)
-    #                 df1["NHHK"] = df1["NHHK"].apply(
-    #                     lambda x: str(x)[:4] + " S " + str(x)[4:]
-    #                 )
+                    df1 = raw_data1[["TenMH", "NHHK", "DiemHP"]].copy()
+                    df1["DiemHP"] = df1["DiemHP"].astype(float)
+                    df1["NHHK"] = df1["NHHK"].apply(
+                        lambda x: str(x)[:4] + " S " + str(x)[4:]
+                    )
 
-    #                 selected_TenMH = " " + course
-    #                 filtered_df1 = df1[df1["TenMH"] == selected_TenMH]
+                    selected_TenMH = " " + course
+                    filtered_df1 = df1[df1["TenMH"] == selected_TenMH]
 
-    #                 mean_DiemHP = (
-    #                     filtered_df1.groupby("NHHK")["DiemHP"]
-    #                     .mean()
-    #                     .round(1)
-    #                     .reset_index(name="Mean")
-    #                 )
+                    mean_DiemHP = (
+                        filtered_df1.groupby("NHHK")["DiemHP"]
+                        .mean()
+                        .round(1)
+                        .reset_index(name="Mean")
+                    )
 
-    #                 if year != "All":
-    #                     st.write("")
-    #                 else:
-    #                     fig = px.line(
-    #                         mean_DiemHP,
-    #                         x="NHHK",
-    #                         y="Mean",
-    #                         title=f"Mean DiemHP through Semesters",
-    #                     )
-    #                     fig.update_layout(height=400, width=400)
-    #                     st.plotly_chart(fig, use_container_width=True)
-    # st.stop()
+                    if year != "All":
+                        st.write("")
+                    else:
+                        fig = px.line(
+                            mean_DiemHP,
+                            x="NHHK",
+                            y="Mean",
+                            title=f"Mean DiemHP through Semesters",
+                        )
+                        fig.update_layout(height=400, width=400)
+                        st.plotly_chart(fig, use_container_width=True)
+                        del raw_data1, df1, filtered_df1, mean_DiemHP, counts, bins, total_count, frequencies_percentage, grade_bins, fig, course_data, course_data_dict, options, valid_courses
+    st.stop()
