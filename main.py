@@ -473,7 +473,7 @@ if tabs == "Dashboard":
             raw_data = raw_data[raw_data["MaSV_school"] == additional_selection]
 
             df1 = raw_data[["TenMH", "NHHK", "DiemHP"]].copy()
-            df1["DiemHP"] = df1["DiemHP"].astype(float)
+            df1["DiemHP"] = df1["DiemHP"].replace('', pd.NA).dropna().astype(float)
             df1["NHHK"] = df1["NHHK"].apply(lambda x: str(x)[:4] + " S " + str(x)[4:])
 
             selected_TenMH = " " + course
