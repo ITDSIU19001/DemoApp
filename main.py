@@ -640,7 +640,7 @@ elif tabs == "Prediction Performance":
 
 
 elif tabs == "Grade Distribution Tables":
-    st.write("not yet")
+        st.write("not yet")
     # clear_resources()
     # additional_selection = " "
 
