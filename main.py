@@ -109,7 +109,7 @@ def score_table():
     data = cursor.fetchall()
 
     # Create a DataFrame
-    df = pd.DataFrame(data, columns=['MaSV', 'MaMH', 'TenMH', 'DiemHP','DTBTK'])
+    df = pd.DataFrame(data, columns=['MaSV', 'MaMH', 'TenMH', 'DiemHP','DTBTK','NHHK'])
 
     # Close the database connection
     conn.close()
