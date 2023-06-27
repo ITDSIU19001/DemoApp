@@ -499,9 +499,9 @@ if tabs == "Dashboard":
                 st.plotly_chart(fig, use_container_width=True)
     del raw_data1, df1, filtered_df1, mean_DiemHP, counts, bins, total_count, frequencies_percentage, grade_bins
     if 'fig1' or 'common_elements' in locals():
-        del fig1,'common_elements'
+        del fig1,common_elements
     del fig, new_df, new_dfa, new1_df, new1_dfa, course_data, course_data_dict
-    del options, valid_courses, common_elements, merged_array, list3, dfac, list2, list1
+    del options, valid_courses, merged_array, list3, dfac, list2, list1
 
 
 
