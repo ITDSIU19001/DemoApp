@@ -506,8 +506,10 @@ if tabs == "Dashboard":
         del merged_array
     if 'list3' in locals():
         del list3
+    if 'list3' in locals():
+        del dfac
     del fig, new_df, new_dfa, new1_df, new1_dfa, course_data, course_data_dict
-    del options, valid_courses , dfac, list2, list1
+    del options, valid_courses , list2, list1
 
 
 
