@@ -123,10 +123,12 @@ def score_table_for_student():
     cursor = conn.cursor()
 
     # Fetch data from the tables
-    cursor.execute('''SELECT Students.MaSV, Enrollment.NHHK, Courses.MaMH, Courses.TenMH, Courses.SoTCDat, Enrollment.DiemHP, Students.DTBTK
-           FROM Students
-           JOIN Enrollment ON Students.MaSV = Enrollment.MaSV
-           JOIN Courses ON Enrollment.MaMH = Courses.MaMH''')
+    cursor.execute('''
+        SELECT Students.MaSV, Enrollment.MaMH, Courses.TenMH, Enrollment.DiemHP, Students.DTBTK, Students.NHHK, Courses.SoTCDat
+        FROM Students
+        INNER JOIN Enrollment ON Students.MaSV = Enrollment.MaSV
+        INNER JOIN Courses ON Enrollment.MaMH = Courses.MaMH
+        ''')
     data = cursor.fetchall()
 
     # Create a DataFrame
@@ -536,10 +538,10 @@ elif tabs == "Prediction Performance":
     clear_resources()
 
     raw_data = score_table_for_student()
+    st.table(raw_data)
     raw_data["DTBTKH4"] = raw_data["DTBTK"]/25
     df=raw_data.copy()
     df["MaSV_school"] = df["MaSV"].str.slice(2, 4)
-    df["Year"] = 2000 + df["MaSV"].apply(get_year)
     df["Major"] = df["MaSV"].str.slice(0, 2)
     unique_values_major = df["Major"].unique()
     unique_values_major = [
