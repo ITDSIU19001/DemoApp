@@ -222,7 +222,7 @@ def fill_missing_values(df):
 
 
 def get_column_data(df):
-    major = df["MaSV"].str[:2].unique()[0]
+    major = df["MaSV"].str.slice(0, 2)
     column_file = f"Columns/column_{major}.txt"
     columns_data = []
     with open(column_file, "r") as f:
