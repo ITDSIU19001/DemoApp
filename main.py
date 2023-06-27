@@ -371,7 +371,7 @@ if tabs == "Dashboard":
 
         df1 = raw_data1[["TenMH", "NHHK", "DiemHP"]].copy()
         
-        df1["DiemHP"] = df1["DiemHP"].replace('', pd.NA).astype(float).dropna()
+        df1["DiemHP"] = df1["DiemHP"].replace('', pd.NA).dropna().astype(float)
         df1["NHHK"] = df1["NHHK"].apply(lambda x: str(x)[:4] + " S " + str(x)[4:])
 
         selected_TenMH = " " + course
