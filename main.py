@@ -116,6 +116,28 @@ def score_table():
 
     return df
 
+@st.cache_data()
+def score_table_for_student():
+    # Establish a connection to the database
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+
+    # Fetch data from the tables
+    cursor.execute('''
+        SELECT Students.MaSV, Enrollment.MaMH, Courses.TenMH, Enrollment.DiemHP, Students.DTBTK, Students.NHHK, Courses.SoTCDat
+        FROM Students
+        INNER JOIN Enrollment ON Students.MaSV = Enrollment.MaSV
+        INNER JOIN Courses ON Enrollment.MaMH = Courses.MaMH
+        ''')
+    data = cursor.fetchall()
+
+    # Create a DataFrame
+    df = pd.DataFrame(data, columns=['MaSV', 'MaMH', 'TenMH', 'DiemHP', 'DTBTK', 'NHHK', 'SoTCDat'])
+
+    # Close the database connection
+    conn.close()
+
+    return df
 
 
 
@@ -515,8 +537,7 @@ elif tabs == "Prediction Performance":
 
     clear_resources()
 
-    raw_data = score_table()
-    df = process_data(raw_data)
+    raw_data,df = score_table_for_student()
     df["Major"] = df["MaSV"].str.slice(0, 2)
     unique_values_major = [
         "BA",
