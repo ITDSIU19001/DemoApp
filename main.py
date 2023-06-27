@@ -100,11 +100,10 @@ def score_table():
     cursor = conn.cursor()
 
     # Fetch data from the tables
-    cursor.execute('''
-    SELECT Students.MaSV, Enrollment.MaMH, Students.TenMH, Enrollment.DiemHP, Students.DTBTK
-    FROM Students
-    INNER JOIN Enrollment ON Students.MaSV = Enrollment.MaSV
-    ''')
+    cursor.execute('''SELECT Students.MaSV, Enrollment.MaMH, Courses.TenMH, Enrollment.DiemHP, Students.DTBTK
+                  FROM Students
+                  INNER JOIN Enrollment ON Students.MaSV = Enrollment.MaSV
+                  INNER JOIN Courses ON Enrollment.MaMH = Courses.MaMH''')
     data = cursor.fetchall()
 
     # Create a DataFrame
