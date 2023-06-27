@@ -391,9 +391,9 @@ if tabs == "Dashboard":
                 mean_DiemHP,
                 x="NHHK",
                 y="Mean",
-                title=f"Mean DiemHP for{selected_TenMH} through Semeters",
+                title=f"Mean Course Score for{selected_TenMH} through Semeters",
             )
-            fig.update_layout(height=400, width=400)
+            fig.update_layout(xaxis_title="Semeters",height=400, width=400)
             st.plotly_chart(fig, use_container_width=True)
 
     if (year != "All" and year_a != " ") or (
@@ -493,9 +493,9 @@ if tabs == "Dashboard":
                     mean_DiemHP,
                     x="NHHK",
                     y="Mean",
-                    title=f"Mean DiemHP for{selected_TenMH} through Semeters",
+                    title=f"Mean Course Score for{selected_TenMH} through Semeters",
                 )
-                fig.update_layout(height=400, width=400)
+                fig.update_layout(xaxis_title="Semeters",height=400, width=400)
                 st.plotly_chart(fig, use_container_width=True)
 
 
