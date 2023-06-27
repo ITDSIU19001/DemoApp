@@ -540,8 +540,9 @@ elif tabs == "Prediction Performance":
     raw_data = score_table_for_student()
     raw_data["DTBTKH4"] = raw_data["DTBTK"]/25
     df=raw_data.copy()
-    
+    df["MaSV_school"] = df["MaSV"].str.slice(2, 4)
     df["Major"] = df["MaSV"].str.slice(0, 2)
+    unique_values_major = df["Major"].unique()
     unique_values_major = [
         "BA",
         "BE",
@@ -556,8 +557,26 @@ elif tabs == "Prediction Performance":
         "IT",
     ]
     unique_values_major = sorted(unique_values_major, key=lambda s: s)
-    major = st.selectbox("Select a school:", unique_values_major)
-    df = filter_dataframe(df, "Major", major)
+    col1, col2 = st.columns(2)
+    with col1:
+        major = st.selectbox("Select a school:", unique_values_major)
+        df = filter_dataframe(df, "Major", major)
+
+        unique_values_school = df["MaSV_school"].unique()
+        all_values_school = np.concatenate([["All"], unique_values_school])
+        no_numbers = [x for x in all_values_school if not re.search(r"\d", str(x))]
+
+        if len(no_numbers) == 2:
+            school = no_numbers[1]
+    with col2:
+        school = st.selectbox("Select a major:", no_numbers)
+
+    df = filter_dataframe(df, "MaSV_school", school)
+
+    unique_values_year = df["Year"].unique()
+    all_values_year = np.concatenate([["All"], unique_values_year])
+
+    year = st.selectbox("Select a year:", all_values_year)
     predict = predict_late_student(df)
     rank = predict_rank(df)
     predict = pd.merge(predict, rank, on="MaSV")
