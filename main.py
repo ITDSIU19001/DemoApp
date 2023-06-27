@@ -100,10 +100,11 @@ def score_table():
     cursor = conn.cursor()
 
     # Fetch data from the tables
-    cursor.execute('''SELECT Students.MaSV, Enrollment.MaMH, Courses.TenMH, Enrollment.DiemHP
-                      FROM Students
-                      JOIN Enrollment ON Students.MaSV = Enrollment.MaSV
-                      JOIN Courses ON Enrollment.MaMH = Courses.MaMH''')
+    cursor.execute('''
+    SELECT Students.MaSV, Enrollment.MaMH, Students.TenMH, Enrollment.DiemHP, Students.DTBTK
+    FROM Students
+    INNER JOIN Enrollment ON Students.MaSV = Enrollment.MaSV
+    ''')
     data = cursor.fetchall()
 
     # Create a DataFrame
@@ -120,7 +121,7 @@ def score_table():
 
 st.sidebar.image(im3)
 st.sidebar.title("Student Performance Prediction System")
-option = ["Prediction Performance", "Dashboard", "Grade Distribution Tables"]
+option = ["Dashboard","Prediction Performance",  "Grade Distribution Tables"]
 
 tabs = st.sidebar.selectbox("Select an option", option)
 
@@ -135,12 +136,8 @@ def filter_dataframe(df, column, value):
 if tabs == "Dashboard":
     clear_resources()
     raw_data = score_table()
-
-
     df = process_data(raw_data)
-
     additional_selection = " "
-
     unique_values_major = df["Major"].unique()
     unique_values_major = [
         "BA",
