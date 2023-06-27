@@ -652,6 +652,8 @@ elif tabs == "Prediction Performance":
 
 elif tabs == "Grade Distribution Tables":
     clear_resources()
+    raw_data = score_table()
+    df = process_data(raw_data)
     additional_selection = " "
 
     unique_values_major = df["Major"].unique()
