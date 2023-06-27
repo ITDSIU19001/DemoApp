@@ -502,8 +502,10 @@ if tabs == "Dashboard":
         del fig1
     if 'common_elements' in locals():
         del common_elements
+    if 'merged_array' in locals():
+        del merged_array
     del fig, new_df, new_dfa, new1_df, new1_dfa, course_data, course_data_dict
-    del options, valid_courses, merged_array, list3, dfac, list2, list1
+    del options, valid_courses , list3, dfac, list2, list1
 
 
 
