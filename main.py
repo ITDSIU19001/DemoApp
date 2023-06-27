@@ -701,7 +701,7 @@ elif tabs == "Prediction Performance":
 
         col3, col1, col2 = st.columns([2, 1, 1])
         with col3:
-            st.dataframe(styled_table)
+            st.table(styled_table)
         with col1:
             st.plotly_chart(fig1, use_container_width=True)
         with col2:
