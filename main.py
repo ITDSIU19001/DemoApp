@@ -541,6 +541,7 @@ elif tabs == "Prediction Performance":
     raw_data["DTBTKH4"] = raw_data["DTBTK"]/25
     df=raw_data.copy()
     df["MaSV_school"] = df["MaSV"].str.slice(2, 4)
+    df["Year"] = 2000 + df["MaSV"].apply(get_year)
     df["Major"] = df["MaSV"].str.slice(0, 2)
     unique_values_major = df["Major"].unique()
     unique_values_major = [
@@ -572,11 +573,6 @@ elif tabs == "Prediction Performance":
         school = st.selectbox("Select a major:", no_numbers)
 
     df = filter_dataframe(df, "MaSV_school", school)
-
-    unique_values_year = df["Year"].unique()
-    all_values_year = np.concatenate([["All"], unique_values_year])
-
-    year = st.selectbox("Select a year:", all_values_year)
     predict = predict_late_student(df)
     rank = predict_rank(df)
     predict = pd.merge(predict, rank, on="MaSV")
