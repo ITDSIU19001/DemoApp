@@ -512,142 +512,143 @@ if tabs == "Dashboard":
 
 
 elif tabs == "Prediction Performance":
-    st.write("not yet")
-    # clear_resources()
 
-    # df = read_sql_query()
-    # df["Major"] = df["MaSV"].str.slice(0, 2)
-    # unique_values_major = [
-    #     "BA",
-    #     "BE",
-    #     "BT",
-    #     "CE",
-    #     "EE",
-    #     "EN",
-    #     "EV",
-    #     "IE",
-    #     "MA",
-    #     "SE",
-    #     "IT",
-    # ]
-    # unique_values_major = sorted(unique_values_major, key=lambda s: s)
-    # major = st.selectbox("Select a school:", unique_values_major)
-    # df = filter_dataframe(df, "Major", major)
-    # predict = predict_late_student(df)
-    # rank = predict_rank(df)
-    # predict = pd.merge(predict, rank, on="MaSV")
-    # predict.rename(columns={"Mean_Cre": "Mean Credit"}, inplace=True)
+    clear_resources()
 
-    # rank_mapping = {
-    #     "Khá": "Good",
-    #     "Trung Bình Khá": "Average good",
-    #     "Giỏi": "Very good",
-    #     "Kém": "Very weak",
-    #     "Trung Bình": "Ordinary",
-    #     "Yếu": "Weak",
-    #     "Xuất Sắc": "Excellent",
-    # }
-    # predict["Pred Rank"].replace(rank_mapping, inplace=True)
+    raw_data = score_table()
+    df = process_data(raw_data)
+    df["Major"] = df["MaSV"].str.slice(0, 2)
+    unique_values_major = [
+        "BA",
+        "BE",
+        "BT",
+        "CE",
+        "EE",
+        "EN",
+        "EV",
+        "IE",
+        "MA",
+        "SE",
+        "IT",
+    ]
+    unique_values_major = sorted(unique_values_major, key=lambda s: s)
+    major = st.selectbox("Select a school:", unique_values_major)
+    df = filter_dataframe(df, "Major", major)
+    predict = predict_late_student(df)
+    rank = predict_rank(df)
+    predict = pd.merge(predict, rank, on="MaSV")
+    predict.rename(columns={"Mean_Cre": "Mean Credit"}, inplace=True)
 
-    # df_late = predict
+    rank_mapping = {
+        "Khá": "Good",
+        "Trung Bình Khá": "Average good",
+        "Giỏi": "Very good",
+        "Kém": "Very weak",
+        "Trung Bình": "Ordinary",
+        "Yếu": "Weak",
+        "Xuất Sắc": "Excellent",
+    }
+    predict["Pred Rank"].replace(rank_mapping, inplace=True)
 
-    # MaSV = st.text_input("Enter Student ID:", key="MaSV")
+    df_late = predict
 
-    # def clear_form():
-    #     st.session_state["MaSV"] = ""
+    MaSV = st.text_input("Enter Student ID:", key="MaSV")
 
-    # if st.button("Clear", on_click=clear_form):
-    #     MaSV = ""
+    def clear_form():
+        st.session_state["MaSV"] = ""
 
-    # if MaSV:
-    #     df_filtered = predict[predict["MaSV"] == MaSV]
-    #     styled_table = (
-    #         df_filtered[
-    #             ["MaSV", "GPA", "Mean Credit", "Pred Rank", "Progress", "Semeters"]
-    #         ]
-    #         .style.applymap(color_cell)
-    #         .format({"GPA": "{:.2f}", "Mean Credit": "{:.1f}", "Semeters": "{:.1f}"})
-    #     )
+    if st.button("Clear", on_click=clear_form):
+        MaSV = ""
 
-    #     with st.container():
-    #         st.table(styled_table)
-    #         predict_one_student(df, MaSV)
-    # else:
-    #     df_late = predict
+    if MaSV:
+        df_filtered = predict[predict["MaSV"] == MaSV]
+        styled_table = (
+            df_filtered[
+                ["MaSV", "GPA", "Mean Credit", "Pred Rank", "Progress", "Semeters"]
+            ]
+            .style.applymap(color_cell)
+            .format({"GPA": "{:.2f}", "Mean Credit": "{:.1f}", "Semeters": "{:.1f}"})
+        )
 
-    #     df_late["Year"] = 2000 + df_late["MaSV"].apply(get_year)
-    #     df_late = df_late[
-    #         (df_late["Year"] != currentYear - 1) & (df_late["Year"] != currentYear - 2)
-    #     ]
-    #     year = st.selectbox("Select Year", options=df_late["Year"].unique())
-    #     df_filtered = df_late[df_late["Year"] == year]
-    #     styled_table = (
-    #         df_filtered[
-    #             ["MaSV", "GPA", "Mean Credit", "Pred Rank", "Progress", "Semeters"]
-    #         ]
-    #         .style.applymap(color_cell)
-    #         .format({"GPA": "{:.2f}", "Mean Credit": "{:.2f}", "Semeters": "{:.2f}"})
-    #     )
-    #     csv = df_filtered.to_csv(index=False)
-    #     b64 = base64.b64encode(csv.encode()).decode()
-    #     href = f'<a href="data:file/csv;base64,{b64}" download="Preidct data.csv">Download CSV</a>'
-    #     st.markdown(href, unsafe_allow_html=True)
+        with st.container():
+            st.table(styled_table)
+            predict_one_student(df, MaSV)
+    else:
+        df_late = predict
 
-    #     legend_order = [
-    #         "Excellent",
-    #         "Very good",
-    #         "Good",
-    #         "Average good",
-    #         "Ordinary",
-    #         "Weak",
-    #         "Very weak",
-    #     ]
+        df_late["Year"] = 2000 + df_late["MaSV"].apply(get_year)
+        df_late = df_late[
+            (df_late["Year"] != currentYear - 1) & (df_late["Year"] != currentYear - 2)
+        ]
+        year = st.selectbox("Select Year", options=df_late["Year"].unique())
+        df_filtered = df_late[df_late["Year"] == year]
+        styled_table = (
+            df_filtered[
+                ["MaSV", "GPA", "Mean Credit", "Pred Rank", "Progress", "Semeters"]
+            ]
+            .style.applymap(color_cell)
+            .format({"GPA": "{:.2f}", "Mean Credit": "{:.2f}", "Semeters": "{:.2f}"})
+        )
+        csv = df_filtered.to_csv(index=False)
+        b64 = base64.b64encode(csv.encode()).decode()
+        href = f'<a href="data:file/csv;base64,{b64}" download="Preidct data.csv">Download CSV</a>'
+        st.markdown(href, unsafe_allow_html=True)
 
-    #     fig1 = px.pie(
-    #         df_filtered,
-    #         names="Pred Rank",
-    #         title="Pred Rank",
-    #         color_discrete_sequence=px.colors.sequential.Mint,
-    #         height=400,
-    #         width=400,
-    #         labels=legend_order,
-    #     )
+        legend_order = [
+            "Excellent",
+            "Very good",
+            "Good",
+            "Average good",
+            "Ordinary",
+            "Weak",
+            "Very weak",
+        ]
 
-    #     fig2 = px.pie(
-    #         df_filtered,
-    #         names="Progress",
-    #         title="Progress",
-    #         color_discrete_sequence=px.colors.sequential.Peach,
-    #         height=400,
-    #         width=400,
-    #     )
+        fig1 = px.pie(
+            df_filtered,
+            names="Pred Rank",
+            title="Pred Rank",
+            color_discrete_sequence=px.colors.sequential.Mint,
+            height=400,
+            width=400,
+            labels=legend_order,
+        )
 
-    #     fig1.update_layout(
-    #         title={
-    #             "text": "Pred Rank",
-    #             "y": 0.95,
-    #             "x": 0.35,
-    #             "xanchor": "center",
-    #             "yanchor": "top",
-    #         }
-    #     )
-    #     fig2.update_layout(
-    #         title={
-    #             "text": "Progress",
-    #             "y": 0.95,
-    #             "x": 0.35,
-    #             "xanchor": "center",
-    #             "yanchor": "top",
-    #         }
-    #     )
+        fig2 = px.pie(
+            df_filtered,
+            names="Progress",
+            title="Progress",
+            color_discrete_sequence=px.colors.sequential.Peach,
+            height=400,
+            width=400,
+        )
 
-    #     col3, col1, col2 = st.columns([2, 1, 1])
-    #     with col3:
-    #         st.dataframe(styled_table)
-    #     with col1:
-    #         st.plotly_chart(fig1, use_container_width=True)
-    #     with col2:
-    #         st.plotly_chart(fig2, use_container_width=True)
+        fig1.update_layout(
+            title={
+                "text": "Pred Rank",
+                "y": 0.95,
+                "x": 0.35,
+                "xanchor": "center",
+                "yanchor": "top",
+            }
+        )
+        fig2.update_layout(
+            title={
+                "text": "Progress",
+                "y": 0.95,
+                "x": 0.35,
+                "xanchor": "center",
+                "yanchor": "top",
+            }
+        )
+
+        col3, col1, col2 = st.columns([2, 1, 1])
+        with col3:
+            st.dataframe(styled_table)
+        with col1:
+            st.plotly_chart(fig1, use_container_width=True)
+        with col2:
+            st.plotly_chart(fig2, use_container_width=True)
 
 
 elif tabs == "Grade Distribution Tables":
@@ -818,5 +819,5 @@ elif tabs == "Grade Distribution Tables":
                         )
                         fig.update_layout(height=400, width=400)
                         st.plotly_chart(fig, use_container_width=True)
-                        del raw_data1, df1, filtered_df1, mean_DiemHP, counts, bins, total_count, frequencies_percentage, grade_bins, fig, course_data, course_data_dict, options, valid_courses
+                        del raw_data1, df1, filtered_df1, mean_DiemHP, counts, bins, total_count, frequencies_percentage, grade_bins, fig, course_data, course_data_dict,  valid_courses
     st.stop()
