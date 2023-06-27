@@ -706,7 +706,31 @@ elif tabs == "Prediction Performance":
             st.plotly_chart(fig1, use_container_width=True)
         with col2:
             st.plotly_chart(fig2, use_container_width=True)
+    variables_to_delete = [
+    "raw_data",
+    "df",
+    "df_late",
+    "MaSV",
+    "predict",
+    "rank",
+    "rank_mapping",
+    "styled_table",
+    "df_filtered",
+    "csv",
+    "b64",
+    "href",
+    "legend_order",
+    "fig1",
+    "fig2",
+    "col1",
+    "col2",
+    "col3"
+    ]
 
+    # Delete the variables after running the code
+    for variable_name in variables_to_delete:
+        if variable_name in locals():
+            del locals()[variable_name]
 
 elif tabs == "Grade Distribution Tables":
     clear_resources()
