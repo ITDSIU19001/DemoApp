@@ -501,6 +501,7 @@ if tabs == "Dashboard":
 
 
 elif tabs == "Prediction Performance":
+    st.write("not yet")
     # clear_resources()
 
     # df = read_sql_query()
@@ -639,6 +640,7 @@ elif tabs == "Prediction Performance":
 
 
 elif tabs == "Grade Distribution Tables":
+    st.write("not yet")
     # clear_resources()
     # additional_selection = " "
 
