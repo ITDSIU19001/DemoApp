@@ -537,7 +537,8 @@ elif tabs == "Prediction Performance":
 
     clear_resources()
 
-    raw_data,df = score_table_for_student()
+    raw_data, = score_table_for_student()
+    df=raw_data.copy()
     df["Major"] = df["MaSV"].str.slice(0, 2)
     unique_values_major = [
         "BA",
