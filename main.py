@@ -538,7 +538,6 @@ elif tabs == "Prediction Performance":
     clear_resources()
 
     raw_data = score_table_for_student()
-    st.table(raw_data)
     raw_data["DTBTKH4"] = raw_data["DTBTK"]/25
     df=raw_data.copy()
     df["MaSV_school"] = df["MaSV"].str.slice(2, 4)
