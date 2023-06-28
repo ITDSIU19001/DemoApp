@@ -132,18 +132,8 @@ def score_table_for_student():
     data = cursor.fetchall()
 
     # Create a DataFrame
-    df = pd.DataFrame(
-        data,
-        columns=[
-            'MaSV',
-            'MaMH',
-            'TenMH',
-            'DiemHP',
-            'DTBTK',
-            'NHHK',
-            'SoTCDat',
-        ],
-    )
+    df = pd.DataFrame(data, columns=['MaSV', 'MaMH', 'NHHK', 'DiemHP', 'DTBTK', 'SoTCDat'])
+
 
     # Close the database connection
     conn.close()
