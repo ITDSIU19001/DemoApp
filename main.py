@@ -124,11 +124,11 @@ def score_table_for_student():
 
         # Fetch data from the tables
         cursor.execute('''
-            SELECT Students.MaSV, Enrollment.MaMH, Courses.TenMH, MAX(Students.SoTCDat) AS SoTCDat, Enrollment.NHHK, Enrollment.DiemHP, Students.DTBTK
+            SELECT Students.MaSV, Enrollment.MaMH, MAX(Students.SoTCDat) AS SoTCDat, Enrollment.NHHK, Enrollment.DiemHP, Students.DTBTK
             FROM Students
             JOIN Enrollment ON Students.MaSV = Enrollment.MaSV
             JOIN Courses ON Enrollment.MaMH = Courses.MaMH
-            GROUP BY Students.MaSV, Enrollment.MaMH, Courses.TenMH, Enrollment.NHHK, Enrollment.DiemHP, Students.DTBTK
+            GROUP BY Students.MaSV, Enrollment.MaMH, Enrollment.NHHK, Enrollment.DiemHP, Students.DTBTK
         ''')
         data = cursor.fetchall()
 
@@ -138,7 +138,6 @@ def score_table_for_student():
         columns=[
             'MaSV',
             'MaMH',
-            'TenMH',
             'DiemHP',
             'DTBTK',
             'NHHK',
