@@ -116,36 +116,47 @@ def score_table():
 
     return df
 
-# @st.cache_data()
-# def score_table_for_student():
-#     # Establish a connection to the database
-#     with sqlite3.connect("database.db") as conn:
-#         cursor = conn.cursor()
+@st.cache_data()
+def score_table_for_student():
+    # Establish a connection to the database
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
 
-#         # Fetch data from the tables
-#         cursor.execute('''
-#             SELECT Students.MaSV, Enrollment.MaMH, MAX(Students.SoTCDat) AS SoTCDat, Enrollment.NHHK, Enrollment.DiemHP, Students.DTBTK
-#             FROM Students
-#             JOIN Enrollment ON Students.MaSV = Enrollment.MaSV
-#             JOIN Courses ON Enrollment.MaMH = Courses.MaMH
-#             GROUP BY Students.MaSV, Enrollment.MaMH, Enrollment.NHHK, Enrollment.DiemHP, Students.DTBTK
-#         ''')
-#         data = cursor.fetchall()
+    # Fetch data from the tables
+    cursor.execute('''
+        SELECT
+            Students.MaSV,
+            Enrollment.MaMH,
+            Courses.TenMH,
+            Enrollment.DiemHP,
+            Students.DTBTK,
+            Enrollment.NHHK,
+            Courses.SoTCDat
+        FROM
+            Students
+            INNER JOIN Enrollment ON Students.MaSV = Enrollment.MaSV
+            INNER JOIN Courses ON Enrollment.MaMH = Courses.MaMH
+    ''')
+    data = cursor.fetchall()
 
-#     # Create a DataFrame
-#     df = pd.DataFrame(
-#         data,
-#         columns=[
-#             'MaSV',
-#             'MaMH',
-#             'DiemHP',
-#             'DTBTK',
-#             'NHHK',
-#             'SoTCDat',
-#         ],
-#     )
+    # Create a DataFrame
+    df = pd.DataFrame(
+        data,
+        columns=[
+            'MaSV',
+            'MaMH',
+            'TenMH',
+            'DiemHP',
+            'DTBTK',
+            'NHHK',
+            'SoTCDat',
+        ],
+    )
 
-#     return df
+    # Close the database connection
+    conn.close()
+
+    return df
 
 
 
@@ -546,7 +557,6 @@ elif tabs == "Prediction Performance":
     clear_resources()
 
     raw_data = pd.read_csv("All_major.csv")
-    # raw_data=score_table_for_student()
     raw_data["DTBTKH4"] = raw_data["DTBTK"]/25
     df=raw_data.copy()
     df["MaSV_school"] = df["MaSV"].str.slice(2, 4)
