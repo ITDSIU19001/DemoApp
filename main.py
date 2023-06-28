@@ -122,40 +122,29 @@ def score_table_for_student():
     cursor = conn.cursor()
 
     # Fetch data from the tables
-    cursor.execute('''
-        SELECT
-            Students.MaSV,
-            Enrollment.MaMH,
-            Courses.TenMH,
-            Enrollment.DiemHP,
-            Students.DTBTK,
-            Enrollment.NHHK,
-            Courses.SoTCDat
-        FROM
-            Students
-            INNER JOIN Enrollment ON Students.MaSV = Enrollment.MaSV
-            INNER JOIN Courses ON Enrollment.MaMH = Courses.MaMH
-    ''')
-    data = cursor.fetchall()
+    cursor.execute('''SELECT DISTINCT Students.MaSV, Enrollment.MaMH, Courses.TenMH, Enrollment.NHHK, Enrollment.DiemHP, Students.DTBTK
+                  FROM Students
+                  INNER JOIN Enrollment ON Students.MaSV = Enrollment.MaSV
+                  INNER JOIN Courses ON Enrollment.MaMH = Courses.MaMH''')
+    results = cursor.fetchall()
 
-    # Create a DataFrame
-    df = pd.DataFrame(
-        data,
-        columns=[
-            'MaSV',
-            'MaMH',
-            'TenMH',
-            'DiemHP',
-            'DTBTK',
-            'NHHK',
-            'SoTCDat',
-        ],
-    )
+    # Create a dataframe from the fetched data
+    df = pd.DataFrame(results, columns=['MaSV', 'MaMH', 'TenMH', 'NHHK', 'DiemHP', 'DTBTK'])
+
+
+    cursor.execute('''SELECT MaSV, NHHK, SoTCDat
+                      FROM Students''')
+    results = cursor.fetchall()
+
+    # Create a dataframe from the fetched data
+    df1 = pd.DataFrame(results, columns=['MaSV', 'NHHK', 'SoTCDat'])
+    merged_df = pd.merge(df, df1, on=['MaSV', 'NHHK'])
 
     # Close the database connection
     conn.close()
 
-    return df
+
+    return  merged_df
 
 
 
