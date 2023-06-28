@@ -116,36 +116,36 @@ def score_table():
 
     return df
 
-@st.cache_data()
-def score_table_for_student():
-    # Establish a connection to the database
-    with sqlite3.connect("database.db") as conn:
-        cursor = conn.cursor()
+# @st.cache_data()
+# def score_table_for_student():
+#     # Establish a connection to the database
+#     with sqlite3.connect("database.db") as conn:
+#         cursor = conn.cursor()
 
-        # Fetch data from the tables
-        cursor.execute('''
-            SELECT Students.MaSV, Enrollment.MaMH, MAX(Students.SoTCDat) AS SoTCDat, Enrollment.NHHK, Enrollment.DiemHP, Students.DTBTK
-            FROM Students
-            JOIN Enrollment ON Students.MaSV = Enrollment.MaSV
-            JOIN Courses ON Enrollment.MaMH = Courses.MaMH
-            GROUP BY Students.MaSV, Enrollment.MaMH, Enrollment.NHHK, Enrollment.DiemHP, Students.DTBTK
-        ''')
-        data = cursor.fetchall()
+#         # Fetch data from the tables
+#         cursor.execute('''
+#             SELECT Students.MaSV, Enrollment.MaMH, MAX(Students.SoTCDat) AS SoTCDat, Enrollment.NHHK, Enrollment.DiemHP, Students.DTBTK
+#             FROM Students
+#             JOIN Enrollment ON Students.MaSV = Enrollment.MaSV
+#             JOIN Courses ON Enrollment.MaMH = Courses.MaMH
+#             GROUP BY Students.MaSV, Enrollment.MaMH, Enrollment.NHHK, Enrollment.DiemHP, Students.DTBTK
+#         ''')
+#         data = cursor.fetchall()
 
-    # Create a DataFrame
-    df = pd.DataFrame(
-        data,
-        columns=[
-            'MaSV',
-            'MaMH',
-            'DiemHP',
-            'DTBTK',
-            'NHHK',
-            'SoTCDat',
-        ],
-    )
+#     # Create a DataFrame
+#     df = pd.DataFrame(
+#         data,
+#         columns=[
+#             'MaSV',
+#             'MaMH',
+#             'DiemHP',
+#             'DTBTK',
+#             'NHHK',
+#             'SoTCDat',
+#         ],
+#     )
 
-    return df
+#     return df
 
 
 
