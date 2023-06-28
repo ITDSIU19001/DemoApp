@@ -134,7 +134,6 @@ def score_table_for_student():
     # Create a DataFrame
     df = pd.DataFrame(data, columns=['MaSV', 'MaMH', 'NHHK', 'DiemHP', 'DTBTK', 'SoTCDat'])
 
-
     # Close the database connection
     conn.close()
 
