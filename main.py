@@ -119,18 +119,18 @@ def score_table():
 @st.cache_data()
 def score_table_for_student():
     # Establish a connection to the database
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
+    with sqlite3.connect("database.db") as conn:
+        cursor = conn.cursor()
 
-    # Fetch data from the tables
-    cursor.execute('''
-        SELECT Students.MaSV, Enrollment.MaMH, Courses.TenMH, MAX(Students.SoTCDat) AS SoTCDat, Enrollment.NHHK, Enrollment.DiemHP, Students.DTBTK
-        FROM Students
-        JOIN Enrollment ON Students.MaSV = Enrollment.MaSV
-        JOIN Courses ON Enrollment.MaMH = Courses.MaMH
-        GROUP BY Students.MaSV, Enrollment.MaMH, Courses.TenMH, Enrollment.NHHK, Enrollment.DiemHP, Students.DTBTK
-    ''')
-    data = cursor.fetchall()
+        # Fetch data from the tables
+        cursor.execute('''
+            SELECT Students.MaSV, Enrollment.MaMH, Courses.TenMH, MAX(Students.SoTCDat) AS SoTCDat, Enrollment.NHHK, Enrollment.DiemHP, Students.DTBTK
+            FROM Students
+            JOIN Enrollment ON Students.MaSV = Enrollment.MaSV
+            JOIN Courses ON Enrollment.MaMH = Courses.MaMH
+            GROUP BY Students.MaSV, Enrollment.MaMH, Courses.TenMH, Enrollment.NHHK, Enrollment.DiemHP, Students.DTBTK
+        ''')
+        data = cursor.fetchall()
 
     # Create a DataFrame
     df = pd.DataFrame(
@@ -145,9 +145,6 @@ def score_table_for_student():
             'SoTCDat',
         ],
     )
-
-    # Close the database connection
-    conn.close()
 
     return df
 
