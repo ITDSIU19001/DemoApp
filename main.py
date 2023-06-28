@@ -124,7 +124,7 @@ def score_table_for_student():
 
     # Fetch data from the tables
     cursor.execute('''
-        SELECT Students.MaSV, Enrollment.MaMH, Enrollment.NHHK, Enrollment.DiemHP, Students.DTBTK, Courses.SoTCDat
+        SELECT Students.MaSV, Enrollment.MaMH, Enrollment.NHHK, Enrollment.DiemHP, Students.DTBTK, Students.SoTCDat
         FROM Students
         INNER JOIN Enrollment ON Students.MaSV = Enrollment.MaSV
         INNER JOIN Courses ON Enrollment.MaMH = Courses.MaMH
